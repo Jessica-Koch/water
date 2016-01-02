@@ -1,6 +1,10 @@
 var getRequest = function(getKey){
     var reqListener = function(){
-        console.log(this.responseText);
+        var responseId = this.responseText;
+        console.log(responseId);
+        return {
+            responseId: responseId
+        };
     };
 
     var oReq = new XMLHttpRequest();
