@@ -5,9 +5,60 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<title>Irrigation Automation</title>
 		<!-- Styles -->
+    <link href="http://allfont.net/allfont.css?fonts=montserrat-light" rel="stylesheet" type="text/css" />
 		<link rel="stylesheet" href="assets/css/styles.css" type="text/css">
+		<link href='https://fonts.googleapis.com/css?family=Oswald|Montserrat|Raleway' rel='stylesheet' type='text/css'>
+
+
 	</head>
 	<body>
+    <h1>My Yard</h1>
+		<div class=sub-header>Device Information</div>
+    <form id ="userKey">
+      <div class="form">
+        <label for="password">Password</label>
+        <div class="text-input">
+          <input type="password" name="password" id="key" placeholder="">
+          <span class="separator"> </span>
+        </div>
+        <div class="button">
+          <button type="submit"onclick="formSubmit()">Unlock</button>
+        </div>
+        <pre id="output"></pre>
+      </form>
+
+		</div>
+
+
+		<!-- <h1>Rachio API Example</h1>
+    <div class="group">
+      <div class=sub-header>Person</div>
+      <div class="item">
+        
+        <button id="person-id">Get Person Id</button>
+      </div>
+      <div class="item">
+        
+        <button id="person-data">Get Person Name</button>
+      </div>
+    </div>
+    <div class="group">
+      <div class=sub-header>Stop Device & Start Zones</div>
+      <div class=sub-header>Device Name: V17140126</div>
+      <div class="item">
+        
+        <button id="stop-watering">Stop All Watering on Device</button>
+      </div>
+      <div class="item">
+        
+        <button id="zone-8-start">Start Zone 8</button>
+      </div>
+      <div class="item">
+        
+        <button id="all-zones-start">Start All Zones</button>
+      </div>
+    </div> -->
+		<script src="assets/javascript/promise.js"></script>
 		<script src="assets/javascript/getKey.js"></script>
 		<script src="assets/javascript/request.js"></script>
 	</body>
