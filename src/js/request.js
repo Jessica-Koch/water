@@ -60,11 +60,14 @@ var getKey = (function() {
     });
 });
 
-
-function get(url) {
+// var urlExtension;
+// function getExtension(i) {
+//     urlExtension = urlExtension || 
+// }
+function get(urlExt) {
     return new Promise(function(resolve, reject) {
-        var req = new XMLHttpRequest();
-
+        var req = new XMLHttpRequest(),
+            url = 'https://api.rach.io/1/public/' + urlExt;
         req.open('GET', url);
         req.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
         req.onload = function() {        
@@ -82,10 +85,10 @@ function get(url) {
 }
 
 
-get('https://api.rach.io/1/public/person/info', true).then(function(response){
+get('person/info', true).then(function(response){
     var output = document.getElementById('output');
     output.innerHTML = JSON.parse(response).id;
-}, function(error) {
+}).catch( function(error) {
   console.error('Failed!', error);
 });
 
