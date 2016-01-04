@@ -14,12 +14,6 @@ function testPromise() {
         function(resolve, reject) {
             output.insertAdjacentHTML('beforeend', thisPromiseCount +
                 ') Promise started (<small>Async code started</small>)<br/>');
-            // This is only an example to create asynchronism
-            window.setTimeout(
-                function() {
-                    // We fulfill the promise !
-                    resolve(thisPromiseCount);
-                }, Math.random() * 2000 + 1000);
         });
 
     // We define what to do when the promise is resolved/fulfilled with the then() call,
@@ -36,7 +30,7 @@ function testPromise() {
     output.insertAdjacentHTML('beforeend', thisPromiseCount +
         ') Promise made (<small>Sync code terminated</small>)<br/>');
 }if ('Promise' in window) {
-    var btn = document.getElementById("btn");
+    var btn = document.getElementById('btn');
     btn.addEventListener('click',testPromise);
 }
 else {
@@ -53,8 +47,8 @@ var getKey = (function() {
             var userKey = form.elements.key.value;
             sessionStorage.setItem('userKey', userKey);
             var key = sessionStorage.getItem('userKey');
-            p.
-            console.log('Saved: ' + key);
+            var output = document.getElementById('output');
+            output.innerHTML = key;
             event.preventDefault();
         });
     });
