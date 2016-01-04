@@ -1,0 +1,23 @@
+{
+  "name": "water",
+  "version": "1.0.0",
+  "description": "Scheduler to run device's zones/specified zones for a set amount of time.",
+  "main": "request.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jessica-Koch/water.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jessica-Koch/water/issues"
+  },
+  "homepage": "https://github.com/Jessica-Koch/water#readme",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-babel": "^6.1.1"
+  }
+}
