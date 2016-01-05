@@ -1,5 +1,3 @@
-var promiseCount = 0;
-
 function testPromise() {
     if ('Promise' in window) {
         var btn = document.getElementById('btn');
@@ -26,7 +24,8 @@ var getApiKey = (function() {
 });
 
 
-function getXMLRequest(urlExt) {
+var getXMLRequest= function (urlExt) {
+
     return new Promise(function(resolve, reject) {
         var req = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/' + urlExt;
@@ -44,14 +43,23 @@ function getXMLRequest(urlExt) {
         };
         req.send(); 
     });
-}
+};
 
 getXMLRequest('person/info', true).then(function(response){
-    var output = document.getElementById('output');
-    output.innerHTML = response;
-    var reqKey = JSON.parse(response).id;
-}).catch( function(error) {
+    var uid = JSON.parse(response).id;
+    return uid;
+}).then(function(uid){
+    var url = 'person/' + uid;
+    return url;
+}).then(function(url){
+    return getXMLRequest(url, true).then(function(response){
+        var output = document.getElementById('output');
+        output.innerHTML = response;
+        return response;
+    });
+}).catch(function(error) {
     console.log('Failed!', error);
 });
+
 
 
