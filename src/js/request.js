@@ -53,9 +53,15 @@ getXMLRequest('person/info', true).then(function(response){
     return url;
 }).then(function(url){
     return getXMLRequest(url, true).then(function(response){
-        var output = document.getElementById('output');
-        output.innerHTML = response;
-        return response;
+        var fullName = JSON.parse(response).fullName;
+        var deviceId = JSON.parse(response).devices[0].id;
+        localStorage.setItem('deviceId', deviceId);
+        var device = localStorage.getItem('deviceId');
+        // var deviceOutput = document.getElementById('device-output');
+
+        var userame = document.getElementById('userName');
+        userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
+        return fullName;
     });
 }).catch(function(error) {
     console.log('Failed!', error);
