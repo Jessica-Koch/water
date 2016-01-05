@@ -139,27 +139,20 @@ getXMLRequest('person/info', true).then(function(response){
         var deviceZones = JSON.parse(response).devices[0].zones;
         var deviceCont = document.getElementById('device-container');
         for(var i = 0, l = deviceZones.length; i <l; i++){
+            var h4 = document.createElement('h4');
+            h4.innerHTML = deviceZones[i].name;
+            deviceCont.appendChild(h4);
             var container = document.createElement('container');
             container.innerHTML = deviceZones[i].id;
             deviceCont.appendChild(container);
-            var p = document.createElement('p');
-            p.innerHtml = deviceZones[i].name;
-            deviceCont.appendChild(p);
-            // document.getElementById('deviceZones').innerHTML = 'table';
-            // innerDiv.appendChild(table);
+            deviceZones.forEach.call(document.querySelectorAll('.wrapper'), function (e) {
+                var wrap = element.cloneNode(true);
+                e.parentNode.insertBefore(wrap, e);
+                wrap.appendChild(e);
+            });
+
         }
-        // var table = document.createElement('table');
-        // for(var i = 0, l = deviceZones.length; i <l; i++){
-        //     var row = document.createElement('tr');
-        //     table.appendChild(row);
-        //     for(var j=0; j < deviceZones.length; j++){
-        //         var cell = document.createElement('td');
-        //         row.appendChild(cell);
-        //         cell.appendChild(document.createTextNode(i *4 +(j+1)));
-        //     }
-        //     document.getElementById('something').innerHTML = 'table';
-        //     // innerDiv.appendChild(table);
-        // }
+
     });
 }).catch(function(error) {
     console.log('Failed!', error);

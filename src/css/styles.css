@@ -170,7 +170,31 @@ table{
   background: rgba(22,22,22, 0.7);
   padding: 1em;
   color:#fff;
+  margin: 2em;
   font-family: 'Montserrat', sans-serif;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between;
+}
+h4{
+  width: 40%
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
 }
 p{
   color:#fff;
