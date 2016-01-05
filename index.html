@@ -13,7 +13,7 @@
 	</head>
 	<body>
     <h1>My Yard</h1>
-		<div id="userName"></div>
+		<div class="label" id="userName"></div>
     <form id ="userKey">
       <div class="form">
         <label for="password">Password</label>
@@ -28,8 +28,20 @@
       <div id="output"> </div>
     </form>
       <div id="device-container">
-        <div class="label">Your Devices</div>
-        <table id="zoneOutput"> </table>
+        <div class="label"></>
+        <table class="table table-striped">
+          <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th></th>
+        </tr>
+        <tr ng-repeat="zone in device.zones | orderBy:'zoneNumber'">
+          <td>{{zone.zoneNumber}}</td>
+            <button onclick="manage.turnOn(device, zone)" class="btn">Turn On</button>
+            <button onclick="manage.allOff(device)" class="btn">Turn Off</button>
+          </td>
+        </tr>
+      </table>
       </div>
     <script src="src/js/request.js"></script>
 	</body>

@@ -48,8 +48,7 @@ function turnOff(device){
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/device/stop_water',
-            data = {'id': device.id
-            };
+            data = {'id': device.id};
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
         xhr.onload = function() {        
@@ -72,6 +71,26 @@ function turnOff(device){
         xhr.send(); 
     });
 }
+function allOff (device) {
+    return new Promise(function(resolve, reject){
+        var xhr = new XMLHttpRequest(),
+            url = 'https://api.rach.io/1/public/device/stop_water',
+            data = {'id': device.id};
+        xhr.open('PUT', url);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
+        console.log("stop all water request gave response " + response.status + ", data " + response.data);
+        if (response.status === 204) {
+            var ref = device.zones;
+            var results = [];
+            for (var i = 0, len = ref.length; i < len; i++) {
+                var zone = ref[i];
+                results.push(zone.running = false);
+            }
+            return results;
+        }
+    });
+}
+
 function turnON(device, zone){
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
