@@ -7,7 +7,7 @@ function $http(url){
             //Creating a promise
             var promise = new Promise(function(resolve, reject){
                 //Instantiates teh XMLHttpRequest
-                var client = new XMLHttpRequest();
+                var req = new XMLHttpRequest();
                 var uri = 'https://api.rach.io/1/public/' + url;
 
                 if(args && (method ==='POST' || method === 'PUT')) {
@@ -22,11 +22,11 @@ function $http(url){
                         }
                     }
                 }
-                client.open(method, uri);
-                client.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
-                client.send();
+                req.open(method, uri);
+                req.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
+                req.send();
 
-                client.onload = function() {
+                req.onload = function() {
                     if(this.status >= 200 && this.status < 300) {
                         // Performs the function "resolve" when this.status is equal to 2xx
                         resolve(this.response);
@@ -35,7 +35,7 @@ function $http(url){
                         reject(this.statusText);
                     }
                 };
-                client.onerror = function(){
+                req.onerror = function(){
                     reject(this.statusText);
                 };
             });

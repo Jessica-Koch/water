@@ -167,7 +167,7 @@ button:active{
   background: rgba(22,22,22, 0.7);
   padding: 1em;
 }
-#output, #device-output{
+#output, #zone-output{
     color:#fff;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
