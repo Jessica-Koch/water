@@ -162,10 +162,19 @@ button:active{
   transition: background-color 0.3s ease-in,
               border-color 0.3s ease-in;
 }
-
+table{
+  color: #fff;
+  font-family: 'Montserrat Light', arial; 
+}
 #device-container{
   background: rgba(22,22,22, 0.7);
   padding: 1em;
+  color:#fff;
+  font-family: 'Montserrat', sans-serif;
+}
+p{
+  color:#fff;
+  font-family: 'Montserrat', sans-serif;
 }
 #output, #zone-output{
     color:#fff;

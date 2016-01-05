@@ -135,11 +135,31 @@ getXMLRequest('person/info', true).then(function(response){
         var fullName = JSON.parse(response).fullName;
         var deviceId = JSON.parse(response).devices[0].id;
         localStorage.setItem('deviceId', deviceId);
-        // var device = localStorage.getItem('deviceId');
-        // var deviceZones = JSON.parse(response).devices[0].zones;
-        // deviceZones.forEach(function(zone){
-        //     // var x = zone[1];
-        // });
+        var device = localStorage.getItem('deviceId');
+        var deviceZones = JSON.parse(response).devices[0].zones;
+        var deviceCont = document.getElementById('device-container');
+        for(var i = 0, l = deviceZones.length; i <l; i++){
+            var container = document.createElement('container');
+            container.innerHTML = deviceZones[i].id;
+            deviceCont.appendChild(container);
+            var p = document.createElement('p');
+            p.innerHtml = deviceZones[i].name;
+            deviceCont.appendChild(p);
+            // document.getElementById('deviceZones').innerHTML = 'table';
+            // innerDiv.appendChild(table);
+        }
+        // var table = document.createElement('table');
+        // for(var i = 0, l = deviceZones.length; i <l; i++){
+        //     var row = document.createElement('tr');
+        //     table.appendChild(row);
+        //     for(var j=0; j < deviceZones.length; j++){
+        //         var cell = document.createElement('td');
+        //         row.appendChild(cell);
+        //         cell.appendChild(document.createTextNode(i *4 +(j+1)));
+        //     }
+        //     document.getElementById('something').innerHTML = 'table';
+        //     // innerDiv.appendChild(table);
+        // }
     });
 }).catch(function(error) {
     console.log('Failed!', error);
