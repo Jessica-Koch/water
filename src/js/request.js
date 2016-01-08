@@ -131,20 +131,22 @@ getXMLRequest('person/info', true).then(function(response){
 }).then(function(url){
     return getXMLRequest(url, true).then(function(response){
         var userName = document.getElementById('userName');
-        userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
         var fullName = JSON.parse(response).fullName;
+        userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
         var deviceId = JSON.parse(response).devices[0].id;
         localStorage.setItem('deviceId', deviceId);
         var device = localStorage.getItem('deviceId');
         var deviceZones = JSON.parse(response).devices[0].zones;
-        var deviceCont = document.getElementById('device-container');
+        var deviceContainer = document.getElementById('device-container');
         for(var i = 0, l = deviceZones.length; i <l; i++){
             var h4 = document.createElement('h4');
             h4.innerHTML = deviceZones[i].name;
-            deviceCont.appendChild(h4);
+            deviceContainer.appendChild(h4);
             var container = document.createElement('container');
             container.innerHTML = deviceZones[i].id;
-            deviceCont.appendChild(container);
+            deviceContainer.appendChild(container).then(function(){
+                
+            });
             deviceZones.forEach.call(document.querySelectorAll('.wrapper'), function (e) {
                 var wrap = element.cloneNode(true);
                 e.parentNode.insertBefore(wrap, e);
@@ -157,5 +159,3 @@ getXMLRequest('person/info', true).then(function(response){
 }).catch(function(error) {
     console.log('Failed!', error);
 });
-
-
