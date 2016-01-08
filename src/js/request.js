@@ -137,21 +137,33 @@ getXMLRequest('person/info', true).then(function(response){
         localStorage.setItem('deviceId', deviceId);
         var device = localStorage.getItem('deviceId');
         var deviceZones = JSON.parse(response).devices[0].zones;
-        var deviceContainer = document.getElementById('device-container');
-        for(var i = 0, l = deviceZones.length; i <l; i++){
-            var h4 = document.createElement('h4');
-            h4.innerHTML = deviceZones[i].name;
-            deviceContainer.appendChild(h4);
-            var container = document.createElement('container');
-            container.innerHTML = deviceZones[i].id;
-            deviceContainer.appendChild(container).then(function(){
+        var orderedZones = deviceZones.sort(function(a,b){
+            return a.zoneNumber - b.zoneNumber;
+        });
+        function createTable(){
+            var deviceContainer = document.getElementById('device-container');
+            var zoneTable = document.createElement('table');
+            var tableBody = document.createElement('tbody');
+
+            table.border = '1';
+            table.appendChild(tableBody);
+
+            var heading = orderedZones[i].name;
+
+            
+                // var h4 = document.createElement('h4');
+                // h4.innerHTML = deviceZones[i].name;
+                // deviceContainer.appendChild(h4);
+            // var container = document.createElement('container');
+            // deviceContainer.innerHTML = deviceZones[i].id;
+            // deviceContainer.appendChild(container).then(function(){
                 
-            });
-            deviceZones.forEach.call(document.querySelectorAll('.wrapper'), function (e) {
-                var wrap = element.cloneNode(true);
-                e.parentNode.insertBefore(wrap, e);
-                wrap.appendChild(e);
-            });
+            // });
+            // deviceZones.forEach.call(document.querySelectorAll('.wrapper'), function (e) {
+            //     var wrap = element.cloneNode(true);
+            //     e.parentNode.insertBefore(wrap, e);
+            //     wrap.appendChild(e);
+            // });
 
         }
 

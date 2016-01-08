@@ -118,7 +118,7 @@ form input[type="password"]:focus + .separator {
   outline-color: transparent;
   outline-style: none;
 }
-.button {
+.btn {
   margin-left: 1em;
   -webkit-display: flex;
   -moz-display: flex;
@@ -136,12 +136,11 @@ form input[type="password"]:focus + .separator {
   -o-justify-content: center;
   justify-content: center;
 }
-button {
+.btn {
   cursor: pointer;
   display: inline-block;
   font-family: 'Montserrat', sans-serif;
   text-transform: uppercase;
-  width: 7em;
   padding: 8px;
   border-radius: 2px;
   color: #fff;
@@ -153,8 +152,8 @@ button {
   transition: background-color 0.2s ease-out,
             color 0.2s ease-out;
 }
-button:hover, 
-button:active{
+.btn:hover, 
+.btn:active{
   background-color: #fff; /* fallback */
   background-color: rgba(255, 255, 255, 0.4);
   border-color: #fff; /* fallback */
