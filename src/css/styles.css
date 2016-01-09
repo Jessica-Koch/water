@@ -1,6 +1,6 @@
 html {
-    width: 100%;
-    height: 100%;
+    min-width: 100%;
+    min-height: 100%;
     background-image: url("background.jpg");
     background-size: cover;
     background-repeat: no-repeat;
@@ -61,6 +61,11 @@ form#userKey{
     -ms-justify-content: center;
     -o-justify-content: center;
     justify-content: center;
+}
+.header{
+  font-family: 'Raleway', sans-serif;
+  border-bottom: 1px solid #fff;
+  font-size: 2em;
 }
 label{
     text-align: left;

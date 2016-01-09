@@ -97,7 +97,7 @@ function allOff(device) {
             } else {
                 reject(Error(xhr.statusText));
             }
-            console.log(xhr.status);
+            alert(xhr.status);
         };
         xhr.send(json_data);
     });
@@ -178,37 +178,50 @@ getXMLRequest('person/info', true).then(function(response){
         var deviceContainer = document.getElementById('device-container');
         var disableAllButton = document.createElement('input');
         var unorderedZones = device.zones;
+        var deviceInfo = document.createElement('div');
+            deviceInfo.setAttribute('class', 'deviceInfo');
+            deviceInfo.appendChild(document.createTextNode('Device Status: '));
+            deviceInfo.appendChild(document.createTextNode(device.status));
+        var devicePower = document.createElement('div');
+        devicePower.setAttribute('class', 'devicePower');
+        devicePower.appendChild(document.createTextNode('Device Power: '));
+        devicePower.appendChild(document.createTextNode(device.on));var devicePaused = document.createElement('div');
+        devicePaused.setAttribute('class', 'devicePaused');
+        devicePaused.appendChild(document.createTextNode('Device Paused?:  '));
+        devicePaused.appendChild(document.createTextNode(device.paused));
         deviceContainer.appendChild(document.createTextNode(deviceID));
+        deviceContainer.appendChild(deviceInfo);
+        deviceContainer.appendChild(devicePaused);
+        deviceContainer.appendChild(devicePower);
+
+
         var orderedZones = unorderedZones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
         var zoneList = document.createElement('ol');
         disableAllButton.addEventListener('click', allOff, false);
         for(var i =0; i < orderedZones.length; i++){
+            // wrapper section
             var zone = document.createElement('section');
             zone.setAttribute('id', orderedZones[i].zoneNumber);
+            // append zone name
             var header = document.createElement('div');
+            header.setAttribute('class', 'header');
+            header.appendChild(document.createTextNode(orderedZones[i].name));
             var runStatus = document.createElement('div');
             runStatus.setAttribute('class', 'runningStatus');
+            var statusLabel = document.createTextNode('RunStatus: ');
+            runStatus.appendChild(statusLabel);
             runStatus.appendChild(document.createTextNode(orderedZones[i].enabled));
+            // individual div buttons
             var zoneButton = document.createElement('input');
             zoneButton.type = 'button';
             zoneButton.value = orderedZones[i].enabled;
             zoneButton.setAttribute('class', 'btn');
             zoneButton.setAttribute('id', orderedZones[i].id);
             zoneButton.addEventListener('click', turnON, false);
-            // if(orderedZones[i].enabled === true){
-            //     zoneButton.onclick = function(){
-            //         alert('true');
-            //     }
-            // } else {
-            //     alert('not  at alllllll!');
-            // };
-
-            header.setAttribute('class', 'header');
-            header.appendChild(document.createTextNode(orderedZones[i].name));
-            zone.appendChild(runStatus);
             zone.appendChild(header);
+            zone.appendChild(runStatus);
             zone.appendChild(zoneButton);
             zoneList.appendChild(zone);
         }
