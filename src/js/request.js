@@ -45,7 +45,10 @@ var getXMLRequest = function (urlExt) {
 };
 
 var turnOff = function(device){
+    var device = JSON.parse(localStorage.getItem('device'));
+    var deviceID = device.id;
     return new Promise(function(resolve, reject){
+        var json_data = JSON.stringify({id: deviceID});
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/device/stop_water',
             data = {'id': device.id};
@@ -89,27 +92,32 @@ function allOff(device) {
                 var results = [];
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var zone = ref[i];
-                    results.push(zone.running = true);
+                    results.push(zone.running = false);
                 }
             } else {
                 reject(Error(xhr.statusText));
             }
+            console.log(xhr.status);
         };
         xhr.send(json_data);
     });
 }
 
 function turnON(device, zone){
+    var deviceContainer = JSON.parse(localStorage.getItem('device'));
+    var deviceID = device.id;
     return new Promise(function(resolve, reject){
+        var json_data = JSON.stringify({id: deviceID, 'duration': 60});
         var xhr = new XMLHttpRequest(),
-            url = 'https://api.rach.io/1/public/device/stop_water', 
-            data = {'id': zone.id,'duration': 3600};
+            url = 'https://api.rach.io/1/public/zone/start';
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
         xhr.onload = function() {        
-            if (xhr.status == 204) {
+            if (xhr.status === 204) {
                 resolve(xhr.response); 
                 var ref = device.zones;
+                console.log(ref);
+                var results = [];
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var otherZone = ref[i];
                     otherZone.running = false;
@@ -121,13 +129,34 @@ function turnON(device, zone){
                 reject(Error(xhr.statusText)); 
                 zone.requestProcessing = true;
             } 
-            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + response.status + ', data ' + response.data);
+            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + xhr.status + ', data ' + xhr.data);
         };
-        xhr.send(); 
+        xhr.send(json_data); 
     });
 }
   
-
+// this.schedules.sort(function schdSort(a, b) {
+//   var retVal = 0;
+//   if (a.data.enabled === false && b.data.enabled === false) {
+//     retVal = 0;
+//   } else if (a.data.enabled === false) {
+//     retVal = 1;
+//   } else if (b.data.enabled === false) {
+//     retVal = -1;
+//   }
+//   return retVal;
+// });
+// runZones: function(zoneRunDurations, callback) {
+//       var data = {
+//         deviceId: this.data.id,
+//         zoneRunDurations: zoneRunDurations
+//       };
+//       this.api.call('device-run-zones', null, data, callback);
+//     },
+//     stopWatering: function(callback) {
+//       var data = {id: this.data.id};
+//       this.api.call('device-schedule-stop', null, data, callback);
+//     },
 // var zones = [];
 getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
@@ -150,35 +179,35 @@ getXMLRequest('person/info', true).then(function(response){
         var disableAllButton = document.createElement('input');
         var unorderedZones = device.zones;
         deviceContainer.appendChild(document.createTextNode(deviceID));
-        // deviceContainer.appendChild(disableAllButton);
-        // disableAllButton.type = 'button';
-        // disableAllButton.value = 'Disable All';
-        // disableAllButton.setAttribute('class', 'btn');
-        // disableAllButton.setAttribute('id', 'allButton');
-        // disableAllButton.onclick = allOff(device);
         var orderedZones = unorderedZones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
         var zoneList = document.createElement('ol');
+        disableAllButton.addEventListener('click', allOff, false);
         for(var i =0; i < orderedZones.length; i++){
             var zone = document.createElement('section');
             zone.setAttribute('id', orderedZones[i].zoneNumber);
             var header = document.createElement('div');
+            var runStatus = document.createElement('div');
+            runStatus.setAttribute('class', 'runningStatus');
+            runStatus.appendChild(document.createTextNode(orderedZones[i].enabled));
             var zoneButton = document.createElement('input');
             zoneButton.type = 'button';
             zoneButton.value = orderedZones[i].enabled;
             zoneButton.setAttribute('class', 'btn');
             zoneButton.setAttribute('id', orderedZones[i].id);
-            zoneButton.onclick = function(){
-                if(this.value === true){
-                    alert('true');
-                } else {
-                    alert('not true at alllllll!');
-                }
-            };
+            zoneButton.addEventListener('click', turnON, false);
+            // if(orderedZones[i].enabled === true){
+            //     zoneButton.onclick = function(){
+            //         alert('true');
+            //     }
+            // } else {
+            //     alert('not  at alllllll!');
+            // };
 
             header.setAttribute('class', 'header');
             header.appendChild(document.createTextNode(orderedZones[i].name));
+            zone.appendChild(runStatus);
             zone.appendChild(header);
             zone.appendChild(zoneButton);
             zoneList.appendChild(zone);
