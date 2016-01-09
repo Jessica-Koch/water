@@ -73,6 +73,7 @@ var turnOff = function(device){
 };
 
 function allOff(device) {
+    var device = JSON.parse(localStorage.getItem('device'));
     var selectAllButton = document.querySelector('#allButton');
     var deviceID = device.id;
     selectAllButton.addEventListener('click', allOff);
@@ -88,19 +89,15 @@ function allOff(device) {
                 var results = [];
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var zone = ref[i];
-                    results.push(zone.running = false);
+                    results.push(zone.running = true);
                 }
-                return results;
             } else {
                 reject(Error(xhr.statusText));
             }
         };
-        xhr.onerror = function() {
-            reject(Error('Network Error'));
-        };
         xhr.send(json_data);
     });
-};
+}
 
 function turnON(device, zone){
     return new Promise(function(resolve, reject){
@@ -153,12 +150,12 @@ getXMLRequest('person/info', true).then(function(response){
         var disableAllButton = document.createElement('input');
         var unorderedZones = device.zones;
         deviceContainer.appendChild(document.createTextNode(deviceID));
-        deviceContainer.appendChild(disableAllButton);
-        disableAllButton.type = 'button';
-        disableAllButton.value = 'Disable All';
-        disableAllButton.setAttribute('class', 'btn');
-        disableAllButton.setAttribute('id', 'allButton');
-        disableAllButton.onclick = allOff(device);
+        // deviceContainer.appendChild(disableAllButton);
+        // disableAllButton.type = 'button';
+        // disableAllButton.value = 'Disable All';
+        // disableAllButton.setAttribute('class', 'btn');
+        // disableAllButton.setAttribute('id', 'allButton');
+        // disableAllButton.onclick = allOff(device);
         var orderedZones = unorderedZones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
