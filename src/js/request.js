@@ -44,7 +44,7 @@ var getXMLRequest = function (urlExt) {
     });
 };
 
-function turnOff(device){
+var turnOff = function(device){
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/device/stop_water',
@@ -70,16 +70,17 @@ function turnOff(device){
         };
         xhr.send(); 
     });
-}
-function allOff (device) {
-    return new Promise(function(resolve, reject){
+};
+var allOff = function (device) {
+    document.querySelector('#allButton');
+    var selectAllP = new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/device/stop_water',
             data = {'id': device.id};
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
-        console.log("stop all water request gave response " + response.status + ", data " + response.data);
-        if (response.status === 204) {
+        console.log('stop all water request gave response ' + xhr.status + ', data ' + data);
+        if (xhr.status === 204) {
             var ref = device.zones;
             var results = [];
             for (var i = 0, len = ref.length; i < len; i++) {
@@ -89,7 +90,7 @@ function allOff (device) {
             return results;
         }
     });
-}
+};
 
 function turnON(device, zone){
     return new Promise(function(resolve, reject){
@@ -120,7 +121,6 @@ function turnON(device, zone){
 }
   
 
-
 // var zones = [];
 getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
@@ -135,38 +135,46 @@ getXMLRequest('person/info', true).then(function(response){
         userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
         var deviceId = JSON.parse(response).devices[0].id;
         localStorage.setItem('deviceId', deviceId);
+        var deviceContainer = document.getElementById('device-container');
         var device = localStorage.getItem('deviceId');
-        var deviceZones = JSON.parse(response).devices[0].zones;
-        var orderedZones = deviceZones.sort(function(a,b){
+        var unorderedZones = JSON.parse(response).devices[0].zones;
+        var orderedZones = unorderedZones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
-        function createTable(){
-            var deviceContainer = document.getElementById('device-container');
-            var zoneTable = document.createElement('table');
-            var tableBody = document.createElement('tbody');
+        var zoneList = document.createElement('ol');
+        var disableAllButton = document.createElement('input');
+        disableAllButton.type = 'button';
+        disableAllButton.value = 'Disable All';
+        disableAllButton.setAttribute('class', 'btn');
+        disableAllButton.setAttribute('id', 'allButton');
+        deviceContainer.appendChild(disableAllButton);
+        disableAllButton.onclick = allOff(orderedZones);
+        for(var i =0; i < orderedZones.length; i++){
+            var zone = document.createElement('section');
+            zone.setAttribute('id', orderedZones[i].zoneNumber);
+            var header = document.createElement('div');
+            var zoneButton = document.createElement('input');
+            zoneButton.type = 'button';
+            zoneButton.value = orderedZones[i].enabled;
+            zoneButton.setAttribute('class', 'btn');
+            zoneButton.setAttribute('id', orderedZones[i].id);
+            zoneButton.onclick = function(){
+                if(this.value === true){
+                    alert('true');
+                } else {
+                    alert('not true at alllllll!');
+                }
+            };
 
-            table.border = '1';
-            table.appendChild(tableBody);
-
-            var heading = orderedZones[i].name;
-
-            
-                // var h4 = document.createElement('h4');
-                // h4.innerHTML = deviceZones[i].name;
-                // deviceContainer.appendChild(h4);
-            // var container = document.createElement('container');
-            // deviceContainer.innerHTML = deviceZones[i].id;
-            // deviceContainer.appendChild(container).then(function(){
-                
-            // });
-            // deviceZones.forEach.call(document.querySelectorAll('.wrapper'), function (e) {
-            //     var wrap = element.cloneNode(true);
-            //     e.parentNode.insertBefore(wrap, e);
-            //     wrap.appendChild(e);
-            // });
-
+            header.setAttribute('class', 'header');
+            header.appendChild(document.createTextNode(orderedZones[i].name));
+            zone.appendChild(header);
+            zone.appendChild(zoneButton);
+            zoneList.appendChild(zone);
         }
-
+        document.getElementById('device-container').appendChild(zoneList);
+        // document.getElementById('device-container').appendChild(zoneTable);
+        
     });
 }).catch(function(error) {
     console.log('Failed!', error);

@@ -161,16 +161,15 @@ form input[type="password"]:focus + .separator {
   transition: background-color 0.3s ease-in,
               border-color 0.3s ease-in;
 }
-table{
-  color: #fff;
-  font-family: 'Montserrat Light', arial; 
-}
 #device-container{
   background: rgba(22,22,22, 0.7);
   padding: 1em;
   color:#fff;
   margin: 2em;
   font-family: 'Montserrat', sans-serif;
+}
+ol{
+  padding: 0px;
   -webkit-display: flex;
   -moz-display: flex;
   -ms-display: flex;
@@ -186,6 +185,9 @@ table{
   -ms-justify-content: space-between;
   -o-justify-content: space-between;
   justify-content: space-between;
+}
+section{
+  margin: 2em;
 }
 h4{
   width: 40%

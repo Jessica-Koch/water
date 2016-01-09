@@ -1,5 +1,7 @@
-var gulp = require('gulp');
-var babel       = require('gulp-babel');
+var gulp = require('gulp'),
+ babel       = require('gulp-babel'),
+ cssnano = require('gulp-cssnano'),
+ sass = require('gulp-sass');
 
 gulp.task('js', function() {
     return gulp.src('./src/js/*.js')
@@ -7,4 +9,13 @@ gulp.task('js', function() {
         .pipe(gulp.dest('./dist/js'));
 });
 
-gulp.task('default', ['js']);
+
+gulp.task('build', [
+    'js',
+]);
+
+gulp.task('watch', function(){
+    gulp.watch('./src/js/*.js', ['js']);
+});
+
+gulp.task('default', ['build', 'watch']);

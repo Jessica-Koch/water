@@ -68,6 +68,26 @@ function turnOff(device) {
         xhr.send();
     });
 }
+function allOff(device) {
+    return new Promise(function (resolve, reject) {
+        var xhr = new XMLHttpRequest(),
+            url = 'https://api.rach.io/1/public/device/stop_water',
+            data = { 'id': device.id };
+        xhr.open('PUT', url);
+        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
+        console.log("stop all water request gave response " + response.status + ", data " + response.data);
+        if (response.status === 204) {
+            var ref = device.zones;
+            var results = [];
+            for (var i = 0, len = ref.length; i < len; i++) {
+                var zone = ref[i];
+                results.push(zone.running = false);
+            }
+            return results;
+        }
+    });
+}
+
 function turnON(device, zone) {
     return new Promise(function (resolve, reject) {
         var xhr = new XMLHttpRequest(),
@@ -106,15 +126,31 @@ getXMLRequest('person/info', true).then(function (response) {
 }).then(function (url) {
     return getXMLRequest(url, true).then(function (response) {
         var userName = document.getElementById('userName');
-        userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
         var fullName = JSON.parse(response).fullName;
+        userName.innerHTML = 'Welcome ' + fullName + ' to your landscaping dashboard!';
         var deviceId = JSON.parse(response).devices[0].id;
         localStorage.setItem('deviceId', deviceId);
-        // var device = localStorage.getItem('deviceId');
-        // var deviceZones = JSON.parse(response).devices[0].zones;
-        // deviceZones.forEach(function(zone){
-        //     // var x = zone[1];
-        // });
+        var deviceContainer = document.getElementById('device-container');
+        var device = localStorage.getItem('deviceId');
+        var unorderedZones = JSON.parse(response).devices[0].zones;
+        var orderedZones = unorderedZones.sort(function (a, b) {
+            return a.zoneNumber - b.zoneNumber;
+        });
+        // var zoneList =
+        var zoneTable = document.createElement('table');
+        for (var i = 0, tr, td; i < orderedZones.length; i++) {
+            thead = document.createElement('thead');
+            th = document.createElement('th');
+            tr = document.createElement('tr');
+            td = document.createElement('td');
+            th.appendChild(document.createTextNode(orderedZones[i].name));
+            thead.appendChild(th);
+            td.appendChild(document.createTextNode(orderedZones[i].id));
+            tr.appendChild(td);
+            zoneTable.appendChild(th);
+            zoneTable.appendChild(tr);
+        }
+        document.getElementById('device-container').appendChild(zoneTable);
     });
 }).catch(function (error) {
     console.log('Failed!', error);

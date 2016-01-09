@@ -1,0 +1,183 @@
+html {
+  width: 100%;
+  height: 100%;
+  background-image: url(background.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  text-align: center; }
+
+body {
+  background: rgba(23, 23, 23, 0.3);
+  min-height: 100%;
+  min-width: 100%;
+  margin: 0;
+  position: absolute; }
+
+h1 {
+  font-family: Oswald,sans-serif;
+  font-weight: 700;
+  font-size: 64px;
+  color: #fff;
+  margin-bottom: .25em; }
+
+#userName, .label {
+  color: #fff;
+  font-family: Raleway,arial;
+  font-size: 20px; }
+
+.sub-header {
+  font-family: Montserrat Light,arial;
+  text-transform: uppercase;
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: .2em; }
+
+.form {
+  margin-top: 2em;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex; }
+
+form#userKey {
+  margin: 0 auto;
+  width: 30em;
+  -ms-align-items: center;
+  align-items: center; }
+
+form#userKey, label {
+  text-align: left;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center; }
+
+label {
+  color: #fff;
+  font-family: Raleway,sans-serif;
+  font-size: 18px;
+  margin-right: 1em; }
+
+form .text-input {
+  overflow: hidden;
+  margin-bottom: .875em;
+  width: 100%; }
+
+form input[type=password] {
+  width: 100%;
+  padding: 1em 0 12px;
+  padding-left: 0;
+  background: none;
+  color: #fff;
+  font-size: 1.2em;
+  font-weight: 400;
+  border: none;
+  border-bottom: 1px solid #999; }
+  form input[type=password]:focus + .separator {
+    transform: scaleX(1) translateY(-2px);
+    opacity: 1; }
+
+.separator {
+  height: 3px;
+  width: 100%;
+  background: #fff;
+  display: block;
+  transform: scaleX(0) translateY(-2px);
+  transform-origin: 50%;
+  opacity: 0;
+  transition: all 0.12s cubic-bezier(0, 0, 0.52, 1.11); }
+
+* :focus {
+  outline-color: transparent;
+  outline-style: none; }
+
+.btn {
+  margin-left: 1em;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Montserrat,sans-serif;
+  text-transform: uppercase;
+  padding: 8px;
+  border-radius: 2px;
+  color: #fff;
+  border: 2px solid #fff;
+  text-align: center;
+  outline: none;
+  text-decoration: none;
+  background-color: transparent;
+  transition: background-color .2s ease-out,color .2s ease-out; }
+  .btn:active, .btn:hover {
+    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-color: #fff;
+    border-color: rgba(255, 255, 255, 0.4);
+    transition: background-color .3s ease-in,border-color .3s ease-in; }
+
+table {
+  color: #fff;
+  font-family: Montserrat Light,arial; }
+
+#device-container {
+  background: rgba(23, 23, 23, 0.7);
+  padding: 1em;
+  color: #fff;
+  margin: 2em;
+  font-family: Montserrat,sans-serif;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -ms-justify-content: space-between;
+  -o-justify-content: space-between;
+  justify-content: space-between; }
+
+h4 {
+  width: 40%;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center; }
+
+#output, #zone-output, p {
+  color: #fff;
+  font-family: Montserrat,sans-serif; }
+
+#output, #zone-output {
+  font-size: 14px;
+  margin: 1.25em;
+  width: 100%; }
