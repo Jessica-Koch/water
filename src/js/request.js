@@ -1,10 +1,12 @@
+'use strict';
+
 function testPromise() {
     if ('Promise' in window) {
         var btn = document.getElementById('btn');
         btn.addEventListener('click',testPromise);
     } else {
         var output = document.getElementById('output');
-        output.innerHTML = "Live example not available as your browser doesn't support the <code>Promise<code> interface.";
+        output.innerHTML = 'Live example not available as your browser doesn\'t support the <code>Promise<code> interface.';
     }
 }
 
@@ -46,12 +48,10 @@ var getXMLRequest = function (urlExt) {
 
 var turnOff = function(device){
     var device = JSON.parse(localStorage.getItem('device'));
-    var deviceID = device.id;
     return new Promise(function(resolve, reject){
-        var json_data = JSON.stringify({id: deviceID});
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/device/stop_water',
-            data = {'id': device.id};
+            json_data = JSON.stringify({'id': device.id});
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
         xhr.onload = function() {        
@@ -71,7 +71,7 @@ var turnOff = function(device){
         xhr.onerror = function() {
             reject(Error('Network Error')); 
         };
-        xhr.send(); 
+        xhr.send(json_data); 
     });
 };
 
@@ -97,30 +97,38 @@ function allOff(device) {
             } else {
                 reject(Error(xhr.statusText));
             }
-            alert(xhr.status);
+            console.log('stop all water request gave response ' + xhr.status + ', data ' + json_data);
         };
         xhr.send(json_data);
     });
 }
 
-function turnON(device, zone){
-    var deviceContainer = JSON.parse(localStorage.getItem('device'));
-    var deviceID = device.id;
-    return new Promise(function(resolve, reject){
-        var json_data = JSON.stringify({id: deviceID, 'duration': 60});
+// function getId(event){
+//     alert(event.target.id);
+// }
+
+function turnON(evt){
+    var device = JSON.parse(localStorage.getItem('device'));
+    var zones = device.zones.sort(function(a,b){
+        return a.zoneNumber - b.zoneNumber;
+    });
+    var zone = evt.target.id;
+
+    new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/zone/start';
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
+        // console.log(zones[]);
+        var json_data = JSON.stringify({'id': zone, 'duration': 6000});
         xhr.onload = function() {        
             if (xhr.status === 204) {
-                resolve(xhr.response); 
                 var ref = device.zones;
-                console.log(ref);
+                // resolve(xhr.response); 
                 var results = [];
                 for (var i = 0, len = ref.length; i < len; i++) {
-                    var otherZone = ref[i];
-                    otherZone.running = false;
+                    var zone = ref[i];
+                    zone.running = false;
                 }
                 zone.running = true;
                 zone.requestProcessing = false;
@@ -128,36 +136,14 @@ function turnON(device, zone){
             } else {
                 reject(Error(xhr.statusText)); 
                 zone.requestProcessing = true;
+                xhr.response;
             } 
-            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + xhr.status + ', data ' + xhr.data);
+            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + xhr.status + ', data ' + json_data);
         };
         xhr.send(json_data); 
     });
 }
   
-// this.schedules.sort(function schdSort(a, b) {
-//   var retVal = 0;
-//   if (a.data.enabled === false && b.data.enabled === false) {
-//     retVal = 0;
-//   } else if (a.data.enabled === false) {
-//     retVal = 1;
-//   } else if (b.data.enabled === false) {
-//     retVal = -1;
-//   }
-//   return retVal;
-// });
-// runZones: function(zoneRunDurations, callback) {
-//       var data = {
-//         deviceId: this.data.id,
-//         zoneRunDurations: zoneRunDurations
-//       };
-//       this.api.call('device-run-zones', null, data, callback);
-//     },
-//     stopWatering: function(callback) {
-//       var data = {id: this.data.id};
-//       this.api.call('device-schedule-stop', null, data, callback);
-//     },
-// var zones = [];
 getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
     return uid;
@@ -177,7 +163,9 @@ getXMLRequest('person/info', true).then(function(response){
         var deviceID = device.id;
         var deviceContainer = document.getElementById('device-container');
         var disableAllButton = document.createElement('input');
-        var unorderedZones = device.zones;
+        var zones = device.zones.sort(function(a,b){
+            return a.zoneNumber - b.zoneNumber;
+        });
         var deviceInfo = document.createElement('div');
             deviceInfo.setAttribute('class', 'deviceInfo');
             deviceInfo.appendChild(document.createTextNode('Device Status: '));
@@ -195,33 +183,37 @@ getXMLRequest('person/info', true).then(function(response){
         deviceContainer.appendChild(devicePower);
 
 
-        var orderedZones = unorderedZones.sort(function(a,b){
-            return a.zoneNumber - b.zoneNumber;
-        });
         var zoneList = document.createElement('ol');
+        zoneList.setAttribute('id', 'zoneList');
         disableAllButton.addEventListener('click', allOff, false);
-        for(var i =0; i < orderedZones.length; i++){
+        for(var i =0; i < zones.length; i++){
             // wrapper section
             var zone = document.createElement('section');
-            zone.setAttribute('id', orderedZones[i].zoneNumber);
+            zone.setAttribute('id', zones[i].zoneNumber);
             // append zone name
             var header = document.createElement('div');
             header.setAttribute('class', 'header');
-            header.appendChild(document.createTextNode(orderedZones[i].name));
-            var runStatus = document.createElement('div');
-            runStatus.setAttribute('class', 'runningStatus');
-            var statusLabel = document.createTextNode('RunStatus: ');
-            runStatus.appendChild(statusLabel);
-            runStatus.appendChild(document.createTextNode(orderedZones[i].enabled));
+            header.appendChild(document.createTextNode(zones[i].name));
+            var zoneEnabled = document.createElement('div');
+            zoneEnabled.setAttribute('class', 'runningStatus');
+            var statusLabel = document.createTextNode('Enabled: ');
+            zoneEnabled.appendChild(statusLabel);
+            zoneEnabled.appendChild(document.createTextNode(zones[i].enabled));
+            var zoneID = document.createElement('div');
+            zoneID.setAttribute('class', 'runningStatus');
+            var idLabel = document.createTextNode('ID: ');
+            zoneID.appendChild(idLabel);
+            zoneID.appendChild(document.createTextNode(zones[i].id));
             // individual div buttons
             var zoneButton = document.createElement('input');
             zoneButton.type = 'button';
-            zoneButton.value = orderedZones[i].enabled;
+            zoneButton.value = 'water';
             zoneButton.setAttribute('class', 'btn');
-            zoneButton.setAttribute('id', orderedZones[i].id);
+            zoneButton.setAttribute('id', zones[i].id);
             zoneButton.addEventListener('click', turnON, false);
             zone.appendChild(header);
-            zone.appendChild(runStatus);
+            zone.appendChild(zoneEnabled);
+            zone.appendChild(zoneID);
             zone.appendChild(zoneButton);
             zoneList.appendChild(zone);
         }

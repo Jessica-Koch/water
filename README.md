@@ -1,3 +1,3 @@
 # Water
 
-Scheduler to run device's zones/specified zones for a set amount of time.
+Allow user to run all of a device's zones
