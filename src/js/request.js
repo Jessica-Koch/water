@@ -1,34 +1,25 @@
 'use strict';
 
-function testPromise() {
-    if ('Promise' in window) {
-        var btn = document.getElementById('btn');
-        btn.addEventListener('click',testPromise);
-    } else {
-        var output = document.getElementById('output');
-        output.innerHTML = 'Live example not available as your browser doesn\'t support the <code>Promise<code> interface.';
-    }
-}
+// function testPromise() {
+//     if ('Promise' in window) {
+//         var btn = document.getElementById('btn');
+//         btn.addEventListener('click',testPromise);
+//     } else {
+//         var output = document.getElementById('output');
+//         output.innerHTML = 'Live example not available as your browser doesn\'t support the <code>Promise<code> interface.';
+//     }
+// }
 
-function classToggle() {
-    this.classList.toggle('active');
-    this.classList.toggle('inactive');
-}
 
 var getApiKey = (function() {
     var form = document.querySelector('form');
-    var p = new Promise(function(resolve, reject){
-        form.addEventListener('submit', function(event){
-            var userKey = form.elements.key.value;
-            sessionStorage.setItem('userKey', userKey);
-            var key = sessionStorage.getItem('userKey');
-            p.
-            console.log('Saved: ' + key);
-            event.preventDefault();
-        });
+    form.addEventListener('submit', function(evnt){
+        var userKey = form.elements.key.value;
+        sessionStorage.setItem('userKey', userKey);
+        var key = sessionStorage.getItem('userKey');
+        return false;
     });
 });
-
 
 var getXMLRequest = function(urlExt) {
     return new Promise(function(resolve, reject) {
@@ -148,7 +139,7 @@ function turnON(evt){
     });
 }
   
-getXMLRequest('person/info', true).then(function(response){
+getXMLRequest('person/info', true).then(function(response, z){
     var uid = JSON.parse(response).id;
     return uid;
 }).then(function(uid){
@@ -215,7 +206,6 @@ getXMLRequest('person/info', true).then(function(response){
             zoneButton.setAttribute('class', 'btn');
             zoneButton.setAttribute('id', zones[i].id);
             zoneButton.addEventListener('click', turnON, false);
-            zoneButton.addEventListener('click', classToggle, false);
             zone.appendChild(header);
             zone.appendChild(zoneEnabled);
             zone.appendChild(zoneID);
