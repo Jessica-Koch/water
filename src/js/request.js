@@ -1,16 +1,5 @@
 'use strict';
 
-// function testPromise() {
-//     if ('Promise' in window) {
-//         var btn = document.getElementById('btn');
-//         btn.addEventListener('click',testPromise);
-//     } else {
-//         var output = document.getElementById('output');
-//         output.innerHTML = 'Live example not available as your browser doesn\'t support the <code>Promise<code> interface.';
-//     }
-// }
-
-
 var getApiKey = (function() {
     var form = document.querySelector('form');
     form.addEventListener('submit', function(evnt){
