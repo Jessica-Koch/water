@@ -122,6 +122,16 @@ form input[type="password"]:focus + .separator {
   outline-color: transparent;
   outline-style: none;
 }
+.active {
+  border-color: hsl(180, 100%, 50%);
+  color: hsl(180, 100%, 50%);
+  text-shadow: 0 0 10px hsla(180, 100%, 50%, 1);
+  box-shadow: 0 0 10px 5px hsla(180, 100%, 50%, 0.5),
+              inset 0 0 10px 5px hsla(180, 100%, 50%, 0.5);
+}
+.inactive {
+  border: none;
+}
 .btn {
   margin-left: 1em;
   -webkit-display: flex;

@@ -10,6 +10,10 @@ function testPromise() {
     }
 }
 
+function classToggle() {
+    this.classList.toggle('active');
+    this.classList.toggle('inactive');
+}
 
 var getApiKey = (function() {
     var form = document.querySelector('form');
@@ -26,7 +30,7 @@ var getApiKey = (function() {
 });
 
 
-var getXMLRequest = function (urlExt) {
+var getXMLRequest = function(urlExt) {
     return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/' + urlExt;
@@ -46,7 +50,7 @@ var getXMLRequest = function (urlExt) {
     });
 };
 
-var turnOff = function(device){
+var turnOff = function(device) {
     var device = JSON.parse(localStorage.getItem('device'));
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest(),
@@ -211,6 +215,7 @@ getXMLRequest('person/info', true).then(function(response){
             zoneButton.setAttribute('class', 'btn');
             zoneButton.setAttribute('id', zones[i].id);
             zoneButton.addEventListener('click', turnON, false);
+            zoneButton.addEventListener('click', classToggle, false);
             zone.appendChild(header);
             zone.appendChild(zoneEnabled);
             zone.appendChild(zoneID);
