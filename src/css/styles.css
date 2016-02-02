@@ -19,10 +19,30 @@ h1 {
     color: #fff;
     margin-bottom: .25em;
 }
-#userName, .label{
+#userName, .label, td{
   color: #fff;
   font-family: 'Raleway', arial;    
   font-size: 20px;
+}
+#deviceTable {
+  -ms-align-items: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  -webkit-display: flex;
+  -moz-display: flex;
+  -ms-display: flex;
+  -o-display: flex;
+  display: flex;
+}
+thead {
+  text-align: center;
+}
+td {
+  padding: 1.25em;
 }
 .sub-header{
     font-family: 'Montserrat Light', arial;    

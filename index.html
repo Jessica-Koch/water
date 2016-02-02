@@ -27,10 +27,32 @@
       </div>
       <div id="output"> </div>
     </form>
-      <div id="device-container">
-        <button class="btn" id="allButton" type="submit" onclick="allOff()">Disable All</button>
+    <div id="device-container">
+      <table id="deviceTable">
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>Status</td>
+            <td>Paused?</td>
+            <td>Power?</td>
+            <td>Schedule rules enabled?</td>
+          </tr>
+        </thead>
+        <tbody>
 
-      </div>
+        </tbody>
+        </table>
+        <button class="btn" id="disableAllZonesButton" type="submit" onclick="allOff()">Disable All</button>
+    </div>
+      <template id="deviceRow">
+        <tr>
+          <td class="deviceHeaderInfo"></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </template>
     <script src="src/js/request.js"></script>
 	</body>
 </html>

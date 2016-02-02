@@ -47,6 +47,7 @@ var turnOff = function(device) {
                     var zone = ref[i];
                     results.push(zone.running = false);
                 }
+                console.log(results);
                 return results;
             } else {
                 reject(Error(xhr.statusText)); 
@@ -61,7 +62,7 @@ var turnOff = function(device) {
 
 function allOff(device) {
     var device = JSON.parse(localStorage.getItem('device'));
-    var selectAllButton = document.querySelector('#allButton');
+    var selectAllButton = document.querySelector('#disableAllZonesButton');
     var deviceID = device.id;
     selectAllButton.addEventListener('click', allOff);
     new Promise(function(resolve, reject){
@@ -96,39 +97,42 @@ function turnON(evt){
     var zones = device.zones.sort(function(a,b){
         return a.zoneNumber - b.zoneNumber;
     });
-    var zone = evt.target.id;
+    var zoneId = evt.target.id;
 
     new Promise(function(resolve, reject){
+        console.log(zones);
         var xhr = new XMLHttpRequest(),
             url = 'https://api.rach.io/1/public/zone/start';
         xhr.open('PUT', url);
         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
         // console.log(zones[]);
-        var json_data = JSON.stringify({'id': zone, 'duration': 6000});
-        xhr.onload = function() {        
+        var json_data = JSON.stringify({'id': zoneId, 'duration': 100});
+        xhr.onload = function(xReqst) {  
+            console.log(xReqst);      
             if (xhr.status === 204) {
                 var ref = device.zones;
-                // resolve(xhr.response); 
                 var results = [];
                 for (var i = 0, len = ref.length; i < len; i++) {
                     var zone = ref[i];
                     zone.running = false;
+                    results.push(zone.running = false);
+
                 }
                 zone.running = true;
-                zone.requestProcessing = false;
-                return results;
+                // zone.requestProcessing = false;
+                console.log(results);
             } else {
                 reject(Error(xhr.statusText)); 
-                zone.requestProcessing = true;
+                // zone.requestProcessing = true;
                 xhr.response;
             } 
-            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + xhr.status + ', data ' + json_data);
+            console.log('start zone ' + zone.zoneNumber + ' on device ' + device.name + ' gave response ' + xhr.status + ', data ' + json_data + ' results are: ' + results);
         };
         xhr.send(json_data); 
     });
 }
   
-getXMLRequest('person/info', true).then(function(response, z){
+getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
     return uid;
 }).then(function(uid){
@@ -150,6 +154,9 @@ getXMLRequest('person/info', true).then(function(response, z){
         var zones = device.zones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
+
+
+        
         var deviceInfo = document.createElement('div');
             deviceInfo.setAttribute('class', 'deviceInfo');
             deviceInfo.appendChild(document.createTextNode('Device Status: '));
