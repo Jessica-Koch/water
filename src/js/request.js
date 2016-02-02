@@ -60,7 +60,7 @@ var turnOff = function(device) {
     });
 };
 
-function allOff(device) {
+var allOff = function(device) {
     var device = JSON.parse(localStorage.getItem('device'));
     var selectAllButton = document.querySelector('#disableAllZonesButton');
     var deviceID = device.id;
@@ -86,13 +86,13 @@ function allOff(device) {
         };
         xhr.send(json_data);
     });
-}
+};
 
 // function getId(event){
 //     alert(event.target.id);
 // }
 
-function turnON(evt){
+var turnON = function(evt){
     var device = JSON.parse(localStorage.getItem('device'));
     var zones = device.zones.sort(function(a,b){
         return a.zoneNumber - b.zoneNumber;
