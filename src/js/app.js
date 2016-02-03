@@ -23,6 +23,8 @@ var getXMLRequest = function(urlExt) {
 var baseURL = 'https://api.rach.io/1/public/';
 var userKey = sessionStorage.getItem('userKey');
 
+
+
 var putXMLRequest = function(url, data) {
     return new Promise(function(resolve, reject){
         var xhr = new XMLHttpRequest();
@@ -61,6 +63,28 @@ var api = {
     waterZone: function(zoneId) {
         putXMLRequest('zone/start', {'id': zoneId, 'duration': 100}).then(function(response){
             console.log(response + ' on');
+        }, function(errorResponse){
+            console.log(errorResponse);
+        });
+    },
+    // '{ "zones" : [{ "id" : "d8913f51-3af5-41e8-b526-7c2da3646309", "duration" : 10, "sortOrder" : 1 }] }'
+    waterMultipleZones: function(zones) {
+        var checkBoxes = document.getElementsByName('zoneCheckbox');
+        var z = [];
+        var checkedZones = [];
+        for(var i = 0; i < checkBoxes.length; i++) {
+            if(checkBoxes[i].checked) {
+                checkedZones.push(checkBoxes[i].id);
+            }
+        }
+        checkedZones.z = checkedZones;
+        for(var i =0; i < checkedZones.length; i++) {
+            z.push({id: checkedZones[i], duration: 100, sortOrder: 1});
+        }
+        var zones = JSON.stringify(z);
+        console.log(zones);
+        putXMLRequest('zone/start_multiple', {'zones': JSON.parse(zones) }).then(function(response){
+            console.log(response);
         }, function(errorResponse){
             console.log(errorResponse);
         });

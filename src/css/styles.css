@@ -215,14 +215,22 @@ ol{
   -ms-flex-wrap: wrap;
   -o-flex-wrap: wrap;
   flex-wrap: wrap;
-  -webkit-justify-content: space-between;
-  -moz-justify-content: space-between;
-  -ms-justify-content: space-between;
-  -o-justify-content: space-between;
-  justify-content: space-between;
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  -ms-justify-content: space-around;
+  -o-justify-content: space-around;
+  justify-content: space-around;
 }
 section{
   margin: 2em;
+  padding: 1em;
+  border: 3px solid green;
+}
+.zoneCheckbox {
+  float: right;
+}
+.runningStatus{
+  margin: .5em;
 }
 h4{
   width: 40%

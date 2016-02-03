@@ -165,6 +165,13 @@ table {
   -o-justify-content: space-between;
   justify-content: space-between; }
 
+ol#zoneList {
+  -webkit-justify-content: space-around;
+  -moz-justify-content: space-around;
+  -ms-justify-content: space-around;
+  -o-justify-content: space-around;
+  justify-content: space-around;
+}
 h4 {
   width: 40%;
   -webkit-justify-content: center;

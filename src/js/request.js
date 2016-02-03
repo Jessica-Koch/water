@@ -13,7 +13,15 @@ var stopWater = function() {
     var deviceID = JSON.parse(localStorage.getItem('device')).id;
     api.allOff(deviceID);
 };
-  
+
+// var waterSelected = function() {
+//     
+//     return checkedZones;
+//     api.waterMultipleZones(checkedZones);
+// };
+// '{ "zones" : [{ "id" : "d8913f51-3af5-41e8-b526-7c2da3646309", "duration" : 10, "sortOrder" : 1 }] }
+
+
 getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
     return uid;
@@ -38,9 +46,10 @@ getXMLRequest('person/info', true).then(function(response){
         });
 
         var deviceInfo = document.createElement('div');
-            deviceInfo.setAttribute('class', 'deviceInfo');
-            deviceInfo.appendChild(document.createTextNode('Device Status: '));
-            deviceInfo.appendChild(document.createTextNode(device.status));
+        deviceInfo.setAttribute('class', 'deviceInfo');
+        deviceInfo.appendChild(document.createTextNode('Device Status: '));
+        deviceInfo.appendChild(document.createTextNode(device.status));
+
         var devicePower = document.createElement('div');
         devicePower.setAttribute('class', 'devicePower');
         devicePower.appendChild(document.createTextNode('Device Power: '));
@@ -67,6 +76,7 @@ getXMLRequest('person/info', true).then(function(response){
             header.appendChild(document.createTextNode(zones[i].name));
             var zoneEnabled = document.createElement('div');
             zoneEnabled.setAttribute('class', 'runningStatus');
+
             var statusLabel = document.createTextNode('Enabled: ');
             zoneEnabled.appendChild(statusLabel);
             zoneEnabled.appendChild(document.createTextNode(zones[i].enabled));
@@ -75,6 +85,26 @@ getXMLRequest('person/info', true).then(function(response){
             var idLabel = document.createTextNode('ID: ');
             zoneID.appendChild(idLabel);
             zoneID.appendChild(document.createTextNode(zones[i].id));
+
+
+            var lastWaterDate = document.createElement('div');
+            lastWaterDate.setAttribute('class', 'waterDate');
+            var waterDateLabel = document.createTextNode('Date Last Watered: ');
+            lastWaterDate.appendChild(waterDateLabel);
+            lastWaterDate.appendChild(document.createTextNode(zones[i].lastWateredDate));
+
+            var lastWaterDuration = document.createElement('div');
+            lastWaterDuration.setAttribute('class', 'waterDuration');
+            var waterDurationLabel = document.createTextNode('Last watered for (time): ');
+            lastWaterDuration.appendChild(waterDurationLabel);
+            lastWaterDuration.appendChild(document.createTextNode(zones[i].lastWateredDuration));
+
+            var zoneCheckBox = document.createElement('input');
+            zoneCheckBox.type = 'checkbox';
+            zoneCheckBox.name = 'zoneCheckbox';
+            zoneCheckBox.setAttribute('class', 'zoneCheckbox');
+            zoneCheckBox.setAttribute('id', zones[i].id);
+
             // individual div buttons
             var zoneButton = document.createElement('input');
             zoneButton.type = 'button';
@@ -82,9 +112,12 @@ getXMLRequest('person/info', true).then(function(response){
             zoneButton.setAttribute('class', 'btn');
             zoneButton.setAttribute('id', zones[i].id);
             zoneButton.addEventListener('click', turnON, false);
+            zone.appendChild(zoneCheckBox);
             zone.appendChild(header);
             zone.appendChild(zoneEnabled);
             zone.appendChild(zoneID);
+            zone.appendChild(lastWaterDate);
+            zone.appendChild(lastWaterDuration);
             zone.appendChild(zoneButton);
             zoneList.appendChild(zone);
         }

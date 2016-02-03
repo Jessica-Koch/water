@@ -26,22 +26,27 @@
       </div>
       <div id="output"> </div>
     </form>
-    <div id="device-container">
-      <table id="deviceTable">
-        <thead>
-          <tr>
-            <td>ID</td>
-            <td>Status</td>
-            <td>Paused?</td>
-            <td>Power?</td>
-            <td>Schedule rules enabled?</td>
-          </tr>
-        </thead>
-        <tbody>
+    <div class ="device-zones-wrapper">
+      <div id="device-container">
+      <button class="btn" id="disableAllZonesButton" type="submit" onclick="stopWater()">Disable All</button>
+      <br><br>
+      <button class="btn" id="waterSelectedZonesButton" type="submit" onclick="api.waterMultipleZones()">Water Selected</button>
+      <br>
+        <table id="deviceTable">
+          <thead>
+            <tr>
+              <td>ID</td>
+              <td>Status</td>
+              <td>Paused?</td>
+              <td>Power?</td>
+              <td>Schedule rules enabled?</td>
+            </tr>
+          </thead>
+          <tbody>
 
-        </tbody>
-        </table>
-        <button class="btn" id="disableAllZonesButton" type="submit" onclick="stopWater()">Disable All</button>
+          </tbody>
+          </table>
+      </div>
     </div>
       <template id="deviceRow">
         <tr>
