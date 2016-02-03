@@ -31,7 +31,7 @@ var putXMLRequest = function(url, data) {
 
         xhr.onload = function(xReqst) {  
             resolve(xhr.response);   
-           };
+        };
         xhr.onerror = function() {
             resolve(xhr.response);
         };
@@ -46,15 +46,14 @@ var api = {
         form.addEventListener('submit', function(evnt){
             var userKey = form.elements.key.value;
             sessionStorage.setItem('userKey', userKey);
-            var key = sessionStorage.getItem('userKey');
+            sessionStorage.getItem('userKey');
             return false;
         });
     },
     allOff: function(deviceID){
-        var deviceID = JSON.parse(localStorage.getItem('device')).id;
         putXMLRequest('device/stop_water', {'id': deviceID}).then(
             function(response){
-                console.log('all are off');
+                console.log(response);
             }, function(errorResponse) {
                 console.log(errorResponse);
         });
@@ -65,9 +64,6 @@ var api = {
         }, function(errorResponse){
             console.log(errorResponse);
         });
-    },
-    stopWater: function() {
-
     }
 
 };

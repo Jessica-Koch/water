@@ -1,72 +1,18 @@
 'use strict';
 
-var turnOff = function(device) {
-    var device = JSON.parse(localStorage.getItem('device'));
-    return new Promise(function(resolve, reject){
-        var xhr = new XMLHttpRequest(),
-            url = 'https://api.rach.io/1/public/device/stop_water',
-            json_data = JSON.stringify({'id': device.id});
-        xhr.open('PUT', url);
-        xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
-        xhr.onload = function() {        
-            if (xhr.status == 204) {
-                resolve(xhr.response); 
-                var ref = device.zones;
-                var results = [];
-                for (var i = 0, len = ref.length; i < len; i++) {
-                    var zone = ref[i];
-                    results.push(zone.running = false);
-                }
-                console.log(results);
-                return results;
-            } else {
-                reject(Error(xhr.statusText)); 
-            }
-        };
-        xhr.onerror = function() {
-            reject(Error('Network Error')); 
-        };
-        xhr.send(json_data); 
-    });
-};
-
-// var allOff = function(device) {
-//     var device = JSON.parse(localStorage.getItem('device'));
-//     var selectAllButton = document.querySelector('#disableAllZonesButton');
-//     var deviceID = device.id;
-//     selectAllButton.addEventListener('click', allOff);
-//     new Promise(function(resolve, reject){
-//         var json_data = JSON.stringify({id: deviceID});
-//         var xhr = new XMLHttpRequest(),
-//             url = 'https://api.rach.io/1/public/device/stop_water';
-//         xhr.open('PUT', url);
-//         xhr.setRequestHeader('Authorization', 'Bearer ' + sessionStorage.getItem('userKey'));
-//         xhr.onload = function(){
-//             if (xhr.status === 204) {
-//                 var ref = device.zones;
-//                 var results = [];
-//                 for (var i = 0, len = ref.length; i < len; i++) {
-//                     var zone = ref[i];
-//                     results.push(zone.running = false);
-//                 }
-//             } else {
-//                 reject(Error(xhr.statusText));
-//             }
-//             console.log('stop all water request gave response ' + xhr.status + ', data ' + json_data);
-//         };
-//         xhr.send(json_data);
-//     });
-// };
-
 var turnON = function(evt){
-var device = JSON.parse(localStorage.getItem('device'));
-    var zones = device.zones.sort(function(a,b){
+    var device = JSON.parse(localStorage.getItem('device'));
+    device.zones.sort(function(a,b){
         return a.zoneNumber - b.zoneNumber;
     });
     var zoneId = evt.target.id;
     api.waterZone(zoneId);
 };
 
+var stopWater = function() {
+    var deviceID = JSON.parse(localStorage.getItem('device')).id;
+    api.allOff(deviceID);
+};
   
 getXMLRequest('person/info', true).then(function(response){
     var uid = JSON.parse(response).id;
@@ -110,7 +56,7 @@ getXMLRequest('person/info', true).then(function(response){
 
         var zoneList = document.createElement('ol');
         zoneList.setAttribute('id', 'zoneList');
-        disableAllButton.addEventListener('click', api.allOff, false);
+        disableAllButton.addEventListener('click', stopWater, false);
         for(var i =0; i < zones.length; i++){
             // wrapper section
             var zone = document.createElement('section');
