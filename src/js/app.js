@@ -82,7 +82,6 @@ var api = {
             z.push({id: checkedZones[i], duration: 100, sortOrder: 1});
         }
         var zones = JSON.stringify(z);
-        console.log(zones);
         putXMLRequest('zone/start_multiple', {'zones': JSON.parse(zones) }).then(function(response){
             console.log(response);
         }, function(errorResponse){
