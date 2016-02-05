@@ -42,33 +42,21 @@ getXMLRequest('person/info', true).then(function(response){
         var zones = device.zones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
-        var deviceInfo = createElem('div', 'deviceInfo');
+        var deviceInfo = createElem('div', 'deviceInfo', '', 'Device Status: ', device.status);
         var entry = device.scheduleRules[0];
         // for(var prop in entry) {
         //     console.log("obj." + prop + " = " + entry[prop]);
         // }
-        deviceInfo.appendChild(document.createTextNode('Device Status: '));
-        deviceInfo.appendChild(document.createTextNode(device.status));
 
-        var devicePower = createElem('div', 'devicePower');
-        devicePower.appendChild(document.createTextNode('Device Power: '));
-        devicePower.appendChild(document.createTextNode(device.on));
+        var devicePower = createElem('div', 'devicePower', '', 'Device Power: ', device.on);
 
-        var devicePaused = createElem('div', 'devicePaused');
-        devicePaused.appendChild(document.createTextNode('Device Paused?:  '));
-        devicePaused.appendChild(document.createTextNode(device.paused));
+        var devicePaused = createElem('div', 'devicePaused', '', 'Device Paused?: ', device.paused);
 
-        var scheduleRuleID = createElem('div');
-        scheduleRuleID.appendChild(document.createTextNode('Device Rule ID: '));
-        scheduleRuleID.appendChild(document.createTextNode(entry.id));
+        var scheduleRuleID = createElem('div', '', '', 'Device Rule ID: ', entry.id);
 
-        var currentSchedule = createElem('div');
-        currentSchedule.appendChild(document.createTextNode('Current Schedule: '));
-        currentSchedule.appendChild(document.createTextNode(device.current_schedule));
+        var currentSchedule = createElem('div', '', '', 'Current Schedule: ', device.current_schedule);
 
-        var currentScheduleStatus = createElem('div');
-        currentScheduleStatus.appendChild(document.createTextNode('Current Schedule Status: '));
-        currentScheduleStatus.appendChild(document.createTextNode(device.current_schedule));
+        var currentScheduleStatus = createElem('div', '', '', 'Current Schedule Status: ', device.current_schedule);
 
 
 
@@ -82,50 +70,25 @@ getXMLRequest('person/info', true).then(function(response){
         deviceContainer.appendChild(currentScheduleStatus);
 
 
-        var zoneList = createElem('ol', '', 'zoneList');
+        var zoneList = createElem('ol', '', 'zoneList', '', '');
         for(var i =0; i < zones.length; i++){
-            // wrapper section
-            var zone = createElem('section', '', zones[i].zoneNumber);
-            // append zone name
-            var header = createElem('div', 'header');
-            header.appendChild(document.createTextNode(zones[i].name));
+            var zone = createElem('section', '', zones[i].zoneNumber, '', '');
+            var header = createElem('div', 'header', '', '', zones[i].name);
+            var zoneEnabled = createElem('div', 'runningStatus', '', 'Enabled: ', zones[i].enabled);
+            var zoneID = createElem('div', 'runningStatus', '', 'ID: ', zones[i].id);
+            var lastWaterDate = createElem('div', 'waterDate', '', 'Date Last Watered: ', zones[i].lastWateredDate);
 
-            var zoneEnabled = createElem('div', 'runningStatus');
-
-            var statusLabel = document.createTextNode('Enabled: ');
-
-            zoneEnabled.appendChild(statusLabel);
-            zoneEnabled.appendChild(document.createTextNode(zones[i].enabled));
-            var zoneID = createElem('div', 'runningStatus');
-         
-            var idLabel = document.createTextNode('ID: ');
-            zoneID.appendChild(idLabel);
-            zoneID.appendChild(document.createTextNode(zones[i].id));
-
-
-            var lastWaterDate = createElem('div', 'waterDate');
-      
-            var waterDateLabel = document.createTextNode('Date Last Watered: ');
-            lastWaterDate.appendChild(waterDateLabel);
-            lastWaterDate.appendChild(document.createTextNode(zones[i].lastWateredDate));
-
-            var lastWaterDuration = createElem('div', 'waterDuration');
-    
-            var waterDurationLabel = document.createTextNode('Last watered for (time): ');
-            lastWaterDuration.appendChild(waterDurationLabel);
-
-            lastWaterDuration.appendChild(document.createTextNode(zones[i].lastWateredDuration));
-
-            var zoneCheckBox = createElem('input', 'zoneCheckbox', zones[i].id);
+            var lastWaterDuration = createElem('div', 'waterDuration', '', 'Last watered for (time): ', zones[i].lastWateredDuration);
+            var zoneCheckBox = createElem('input', 'zoneCheckbox', zones[i].id, '', '');
             zoneCheckBox.type = 'checkbox';
             zoneCheckBox.name = 'zoneCheckbox';
 
             // individual div buttons
-            var zoneButton = createElem('input', 'btn', zones[i].id);
+            var zoneButton = createElem('input', 'btn', zones[i].id, '', '');
             zoneButton.type = 'button';
             zoneButton.value = 'water';
             zoneButton.addEventListener('click', turnON, false);
-            
+
             zone.appendChild(zoneCheckBox);
             zone.appendChild(header);
             zone.appendChild(zoneEnabled);
