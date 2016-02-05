@@ -1,7 +1,7 @@
 'use strict';
 
-function createElem(name, className, idName, text, dynText){
-    var elem = document.createElement(name);
+function createElem(className, idName, text, dynText){
+    var elem = document.createElement('div');
     elem.setAttribute('class', className);
     elem.setAttribute('id', idName);
     elem.appendChild(document.createTextNode(text));
@@ -9,11 +9,32 @@ function createElem(name, className, idName, text, dynText){
     return elem;
 };
 
-function createInput(type, name, value) {
-    var elem = createElem('input');
-    elem.type = type;
-    elem.name = name;
-    elem.value = value;
+function createCheckBox(className, idName, type, name) {
+    var chkBox = document.createElement('input');
+    chkBox.setAttribute('class', className);
+    chkBox.setAttribute('id', idName);
+    chkBox.type = type;
+    chkBox.name = name;
+    return chkBox;
+}
+function createSection(idName) {
+    var sect = document.createElement('section');
+    sect.setAttribute('id', idName);
+    return sect;
+}
+
+function createButton(className, idName, typ, val){
+    var btn = document.createElement('input');
+    btn.setAttribute('class', className);
+    btn.setAttribute('id', idName);
+    btn.type = typ;
+    btn.value = val;
+    return btn;
+}
+
+function createList(idName) {
+    var elem = document.createElement('ol');
+    elem.setAttribute('id', idName);
     return elem;
 }
 
@@ -22,7 +43,6 @@ function popDOM() {
 
 
 }
-
 // var zContainer = document.createDocumentFragment();
 // function createZones(name, zones) {
 //     zContainer.appendChild(createElem('ol', '', 'zoneList');)
