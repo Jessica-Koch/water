@@ -42,17 +42,17 @@ getXMLRequest('person/info', true).then(function(response){
         var zones = device.zones.sort(function(a,b){
             return a.zoneNumber - b.zoneNumber;
         });
-        var deviceInfo = createElem('deviceInfo', '', 'Device Status: ', device.status);
+        var deviceInfo = uiUtils.createElem('deviceInfo', '', 'Device Status: ', device.status);
         var entry = device.scheduleRules[0];
         // for(var prop in entry) {
         //     console.log("obj." + prop + " = " + entry[prop]);
         // }
 
-        var devicePower = createElem('devicePower', '', 'Device Power: ', device.on);
-        var devicePaused = createElem('devicePaused', '', 'Device Paused?: ', device.paused);
-        var scheduleRuleID = createElem('', '', 'Device Rule ID: ', entry.id);
-        var currentSchedule = createElem('', '', 'Current Schedule: ', device.current_schedule);
-        var currentScheduleStatus = createElem('', '', 'Current Schedule Status: ', device.current_schedule);
+        var devicePower = uiUtils.createElem('devicePower', '', 'Device Power: ', device.on);
+        var devicePaused = uiUtils.createElem('devicePaused', '', 'Device Paused?: ', device.paused);
+        var scheduleRuleID = uiUtils.createElem('', '', 'Device Rule ID: ', entry.id);
+        // var currentSchedule = createElem('', '', 'Current Schedule: ', entry.current_schedule);
+        // var currentScheduleStatus = createElem('', '', 'Current Schedule Status: ', entry.status);
 
 
 
@@ -62,36 +62,37 @@ getXMLRequest('person/info', true).then(function(response){
         deviceContainer.appendChild(devicePaused);
         deviceContainer.appendChild(devicePower);
         deviceContainer.appendChild(scheduleRuleID);
-        deviceContainer.appendChild(currentSchedule);
-        deviceContainer.appendChild(currentScheduleStatus);
+        // deviceContainer.appendChild(currentSchedule);
+        // deviceContainer.appendChild(currentScheduleStatus);
 
-
-        var zoneList = createList('zoneList');
-        for(var i =0; i < zones.length; i++){
-            var zone = createSection(zones[i].zoneNumber);
-            var header = createElem('header', '', '', zones[i].name);
-            var zoneEnabled = createElem('runningStatus', '', 'Enabled: ', zones[i].enabled);
-            var zoneID = createElem('runningStatus', '', 'ID: ', zones[i].id);
-            var lastWaterDate = createElem('waterDate', '', 'Date Last Watered: ', zones[i].lastWateredDate);
-            var lastWaterDuration = createElem('waterDuration', '', 'Last watered for (time): ', zones[i].lastWateredDuration);
-            var zoneCheckBox = createCheckBox('zoneCheckbox', zones[i].id, 'checkbox', 'zoneCheckbox');
+        var zoneList = uiUtils.createList('zoneList');
+        zones.map(function(zone){
+            // for(var i =0; i < zones.length; i++){
+            var zoneNumber = uiUtils.createSection(zone.zoneNumber);
+            // var header = createElem('header', '', '', zones[i].name);
+            // var zoneEnabled = createElem('runningStatus', '', 'Enabled: ', zones[i].enabled);
+            // var zoneID = createElem('runningStatus', '', 'ID: ', zones[i].id);
+            // var lastWaterDate = createElem('waterDate', '', 'Date Last Watered: ', zones[i].lastWateredDate);
+            // var lastWaterDuration = createElem('waterDuration', '', 'Last watered for (time): ', zones[i].lastWateredDuration);
+            var zoneCheckBox = uiUtils.createCheckBox('zoneCheckbox', zone.id, 'checkbox', 'zoneCheckbox');
 
             // individual div buttons
-            var zoneButton = createButton('btn', zones[i].id, 'button', 'water');
+            var zoneButton = uiUtils.createButton('btn', zone.id, 'button', 'water');
             zoneButton.addEventListener('click', turnON, false);
 
-            zone.appendChild(zoneCheckBox);
-            zone.appendChild(header);
-            zone.appendChild(zoneEnabled);
-            zone.appendChild(zoneID);
-            zone.appendChild(lastWaterDate);
-            zone.appendChild(lastWaterDuration);
-            zone.appendChild(zoneButton);
-            zoneList.appendChild(zone);
-        }
-        document.getElementById('device-container').appendChild(zoneList);
-
+            // zone.appendChild(zoneCheckBox);
+            // zone.appendChild(header);
+            // zone.appendChild(zoneEnabled);
+            // zone.appendChild(zoneID);
+            // zone.appendChild(lastWaterDate);
+            // zone.appendChild(lastWaterDuration);
+            // zone.appendChild(zoneButton);
+            zoneList.appendChild(zoneNumber);
         
+        // }
+        document.getElementById('device-container').appendChild(zoneList);
+        return zoneList;
+        });   
     });
 }).catch(function(error) {
     console.log('Failed!', error);
